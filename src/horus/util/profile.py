@@ -15,6 +15,7 @@ import collections
 import json
 import types
 import numpy as np
+import logging
 
 if sys.version_info[0] < 3:
     import ConfigParser
@@ -23,6 +24,7 @@ else:
 
 from horus.util import resources, system
 
+logger = logging.getLogger("horus_logger")
 
 class Settings(collections.MutableMapping):
 
@@ -535,13 +537,13 @@ class Setting(object):
         if self.min_value is not None and value < self.min_value:
             # raise ValueError('Error when setting %s.\n%s is below min value %s.' %
             # (self._id, value, self.min_value))
-            print 'Warning: For setting %s, %s is below min value %s.' % \
-                (self._id, value, self.min_value)
+            logger.warning('Warning: For setting %s, %s is below min value %s.' % \
+                (self._id, value, self.min_value))
         if self.max_value is not None and value > self.max_value:
             # raise ValueError('Error when setting %s.\n%s is above max value %s.' %
             # (self._id, value, self.max_value))
-            print 'Warning: For setting %s.\n%s is above max value %s.' % \
-                (self._id, value, self.max_value)
+            logger.warning('Warning: For setting %s.\n%s is above max value %s.' % \
+                (self._id, value, self.max_value))
 
     def _checkPossibleValues(self, value):
         if self._possible_values is not None and value not in self._possible_values:
@@ -602,7 +604,7 @@ def getBasePath():
         try:
             os.makedirs(basePath)
         except:
-            print "Failed to create directory: %s" % (basePath)
+            logger.exception("Failed to create directory: %s" % (basePath))
     return basePath
 
 
@@ -627,7 +629,7 @@ def loadOldSettings(filename):
     try:
         profileParser.read(filename)
     except ConfigParser.ParsingError:
-        print "Unable to read file: %s" % filename
+        logger.exception("Unable to read file: %s" % filename)
     section = profileParser.sections()[0]
 
     for key in settings:

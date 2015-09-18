@@ -19,9 +19,11 @@ http://en.wikipedia.org/wiki/PLY_(file_format)
 import os
 import struct
 import numpy as np
+import logging
 
 from horus.util import model
 
+logger = logging.getLogger("horus_logger")
 
 def _loadAscii(mesh, stream, dtype, count):
     fields = dtype.fields
@@ -119,7 +121,7 @@ def loadScene(filename):
             return obj
 
         else:
-            print "Error: incorrect file format."
+            logger.error("Error: incorrect file format.")
             return None
 
 

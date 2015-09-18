@@ -10,6 +10,7 @@ import math
 import numpy
 import wx
 import time
+import logging
 
 from horus.util.resources import getPathForImage
 
@@ -24,6 +25,8 @@ from OpenGL.GL import shaders
 from sys import platform as _platform
 if _platform != 'darwin':
     glutInit()  # Hack; required before glut can be called. Not required for all OS.
+
+logger = logging.getLogger("horus_logger")
 
 
 class GLReferenceCounter(object):
@@ -73,7 +76,7 @@ class GLShader(GLReferenceCounter):
             glDeleteShader(vertexShader)
             glDeleteShader(fragmentShader)
         except RuntimeError, e:
-            print str(e)
+            logger.exception(e)
             self._program = None
 
     def bind(self):
@@ -97,7 +100,7 @@ class GLShader(GLReferenceCounter):
                     glGetUniformLocation(self._program, name), 1, False,
                     value.getA().astype(numpy.float32))
             else:
-                print 'Unknown type for setUniform: %s' % (str(type(value)))
+                logger.error('Unknown type for setUniform: %s' % (str(type(value))))
 
     def isValid(self):
         return self._program is not None
@@ -110,7 +113,7 @@ class GLShader(GLReferenceCounter):
 
     def __del__(self):
         if self._program is not None and bool(glDeleteProgram):
-            print "Shader was not properly released!"
+            logger.error("Shader was not properly released!")
 
 
 class GLFakeShader(GLReferenceCounter):
@@ -288,7 +291,7 @@ class GLVBO(GLReferenceCounter):
 
     def __del__(self):
         if self._buffer is not None and bool(glDeleteBuffers):
-            print "VBO was not properly released!"
+            logger.error("VBO was not properly released!")
 
 
 def glDrawStringCenter(s):

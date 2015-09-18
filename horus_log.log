@@ -1,0 +1,15 @@
+2015-09-18 12:19:31,331 - INFO - >>> Horus 0.2 <<<
+2015-09-18 12:19:34,082 - INFO - Connecting camera 1
+2015-09-18 12:19:35,489 - INFO - Done
+2015-09-18 12:19:35,490 - INFO - Connecting board /dev/ttyUSB1 115200
+2015-09-18 12:19:37,182 - INFO - Done
+2015-09-18 12:20:00,734 - INFO - Disconnecting camera 1
+2015-09-18 12:20:00,735 - INFO - Done
+2015-09-18 12:20:00,736 - INFO - Disconnecting board /dev/ttyUSB1
+2015-09-18 12:20:00,738 - INFO - Done
+2015-09-18 12:20:21,213 - ERROR - Error when importing modules.
+Traceback (most recent call last):
+  File "src/horus.py", line 31, in <module>
+    import akshdas
+ImportError: No module named akshdas
+2015-09-18 12:21:07,888 - INFO - >>> Horus 0.2 <<<

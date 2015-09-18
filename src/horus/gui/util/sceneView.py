@@ -15,6 +15,7 @@ import traceback
 import threading
 import math
 import cStringIO as StringIO
+import logging
 
 import OpenGL
 OpenGL.ERROR_CHECKING = False
@@ -28,6 +29,7 @@ from horus.gui.util import openglHelpers, openglGui
 from horus.engine.driver.driver import Driver
 from horus.engine.algorithms.point_cloud_roi import PointCloudROI
 
+logger = logging.getLogger("horus_logger")
 
 class SceneView(openglGui.glGuiPanel):
 
@@ -292,8 +294,8 @@ class SceneView(openglGui.glGuiPanel):
                 self._afterLeakTest[type(i)] += 1
             for k in self._afterLeakTest:
                 if self._afterLeakTest[k] - self._beforeLeakTest[k]:
-                    print k, self._afterLeakTest[k], self._beforeLeakTest[k],
-                    self._afterLeakTest[k] - self._beforeLeakTest[k]
+                    logger.info(k, self._afterLeakTest[k], self._beforeLeakTest[k],
+                    self._afterLeakTest[k] - self._beforeLeakTest[k])
 
         if keyCode == wx.WXK_CONTROL:
             self._moveVertical = True

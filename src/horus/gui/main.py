@@ -11,6 +11,7 @@ import time
 import struct
 import wx._core
 import webbrowser
+import logging
 
 from horus.gui.workbench.control.main import ControlWorkbench
 from horus.gui.workbench.scanning.main import ScanningWorkbench
@@ -35,6 +36,8 @@ from horus.engine.algorithms.point_cloud_generation import PointCloudGeneration
 from horus.engine.algorithms.point_cloud_roi import PointCloudROI
 
 from horus.util import profile, resources, meshLoader, version, system as sys
+
+logger = logging.getLogger("horus_logger")
 
 driver = Driver()
 ciclop_scan = CiclopScan()
@@ -76,7 +79,7 @@ class MainWindow(wx.Frame):
 
         self.lastFiles = profile.settings['last_files']
 
-        print ">>> Horus " + version.getVersion() + " <<<"
+        logger.info(">>> Horus " + version.getVersion() + " <<<")
 
         # Initialize GUI
 

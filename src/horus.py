@@ -5,6 +5,17 @@ __author__ = 'Jesús Arroyo Torrens <jesus.arroyo@bq.com>'
 __copyright__ = 'Copyright (C) 2014-2015 Mundo Reader S.L.'
 __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.html'
 
+import logging
+import logging.handlers
+
+# Logger set up
+logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger("horus_logger")
+logger.setLevel(logging.DEBUG)
+rot_handler = logging.handlers.RotatingFileHandler("horus_log.log", maxBytes=1 * 1024 * 1024, backupCount=0)
+rot_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+rot_handler.setLevel(logging.INFO)
+logger.addHandler(rot_handler)
 
 try:
     import os
@@ -15,8 +26,8 @@ try:
     import numpy
     import scipy
     import matplotlib
-except ImportError as e:
-    print e.message
+except:
+    logger.exception("Error when importing modules.")
     exit(1)
 
 from horus.util import resources

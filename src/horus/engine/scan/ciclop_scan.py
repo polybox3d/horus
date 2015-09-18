@@ -8,11 +8,14 @@ __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.ht
 import time
 import Queue
 import numpy as np
+import logging
 
 from horus import Singleton
 from horus.engine.scan.scan import Scan
 from horus.engine.scan.scan_capture import ScanCapture
 from horus.engine.scan.current_video import CurrentVideo
+
+logger = logging.getLogger("horus_logger")
 
 
 class ScanError(Exception):
@@ -112,7 +115,7 @@ class CiclopScan(Scan):
                         self._range = abs(360.0 / self.motor_step)
                     # Put images into queue
                     self._captures_queue.put(capture)
-                    print "Capture: {0} ms".format(int((time.time() - begin) * 1000))
+                    logger.debug("Capture: {0} ms".format(int((time.time() - begin) * 1000)))
 
         self.driver.board.lasers_off()
         self.driver.board.motor_disable()
@@ -184,7 +187,7 @@ class CiclopScan(Scan):
                         self.current_video.set_gray(images)
                         self.current_video.set_line(points, image)
 
-                        print "Process: {0} ms".format(int((time.time() - begin) * 1000))
+                        logger.debug("Process: {0} ms".format(int((time.time() - begin) * 1000)))
         if ret:
             response = (True, None)
         else:

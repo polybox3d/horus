@@ -7,10 +7,12 @@ __copyright__ = 'Copyright (C) 2014-2015 Mundo Reader S.L.\
 __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.html'
 
 import os
+import logging
 
 from horus.util.meshLoaders import ply
 from horus.util.meshLoaders import stl
 
+logger = logging.getLogger("horus_logger")
 
 def loadSupportedExtensions():
     """ return a list of supported file extensions for loading. """
@@ -31,7 +33,7 @@ def loadMesh(filename):
         return ply.loadScene(filename)
     if ext == '.stl':
         return stl.loadScene(filename)
-    print 'Error: Unknown model extension: %s' % (ext)
+    logger.error('Error: Unknown model extension: %s' % (ext))
     return None
 
 
@@ -44,4 +46,4 @@ def saveMesh(filename, _object):
     if ext == '.ply':
         ply.saveScene(filename, _object)
         return
-    print 'Error: Unknown model extension: %s' % (ext)
+    logger.error('Error: Unknown model extension: %s' % (ext))
